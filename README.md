@@ -1,7 +1,33 @@
 # FastClick
 使用 Apt 动态生成代码,实现按钮的点击控制(防止 App 在弱网下快速点击引起的未知 bug)
 
-// 稍后将上传到 JCenter 
+### 远程依赖
+
+在模块的 build.gradle 文件中设置如下
+
+`defaultConfig {`
+
+```
+javaCompileOptions {
+    annotationProcessorOptions {
+        includeCompileClasspath true
+    }
+}
+```
+
+```
+repositories {
+    // 代码已提交 JCenter 审核,需添加 maven 仓库地址
+    maven{ url 'https://dl.bintray.com/ethanmao/FastClick'
+    }
+}
+```
+
+```
+dependencies {
+    implementation 'com.bailun.kai:FastClick:1.1'
+    }
+```
 
 
 
@@ -37,7 +63,7 @@ APT 全名 Annation Processor Tool,就是借助 Javax 的注解库,在编译阶�
 
  * Apt 生成的代码在什么时候介入?
 
-BufferKnife 以及我们今天要手撸的 FastClick,它们都是跟随 Activity/View 初始化,在 setContentView 方法被执行后,我们会通过 FastClick.init() 方法,在该方法将Apt生成的方法注入源代码.
+ButterKnife 以及我们今天要手撸的 FastClick,它们都是跟随 Activity/View 初始化,在 setContentView 方法被执行后,我们会通过 FastClick.init() 方法,在该方法将Apt生成的方法注入源代码.
 
 * 为什么需要单独创建一个 Java 库模块?
 

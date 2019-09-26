@@ -21,6 +21,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
     }
 
 
@@ -30,4 +35,90 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.2'
 
+}
+
+/** 以下开始是将Android Library上传到jcenter的相关配置**/
+
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+
+
+//项目主页
+def siteUrl = 'https://github.com/maokai1229/FastClick'    // project homepage
+//项目的版本控制地址
+def gitUrl = 'https://github.com/maokai1229/FastClick.git' // project git
+
+//发布到组织名称名字，必须填写
+group = "com.bailun.kai"
+//发布到JCenter上的项目名字，必须填写
+def libName = "FastClick"
+// 版本号，下次更新是只需要更改版本号即可
+version = "1.1"
+
+//生成源文件
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+//生成文档
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    options.encoding "UTF-8"
+    options.charSet 'UTF-8'
+    options.author true
+    options.version true
+    failOnError false
+}
+
+
+//上传到jcenter
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user = properties.getProperty("bintray.user")    //读取 local.properties 文件里面的 bintray.user
+    key = properties.getProperty("bintray.apikey")   //读取 local.properties 文件里面的 bintray.apikey
+    configurations = ['archives']
+    pkg {
+        repo = "FastClick"
+        name = "FastClick"    //发布到JCenter上的项目名字，必须填写
+        desc = '基于Apt实现,用于控制连续按钮点击'    //项目描述
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}
+
+// 配置maven库，生成POM.xml文件
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                name 'This is an Andorid Lib'
+                url siteUrl
+                licenses {
+                    license {
+                        name 'This is an Andorid Lib'
+                        url 'https://github.com/maokai1229/FastClick'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'ethanmao'
+                        name 'kai.mao'
+                        email 'maokai1229@foxmail.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
 }
