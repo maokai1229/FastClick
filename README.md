@@ -4,14 +4,15 @@
 ### 远程依赖
 
 在模块的 build.gradle 文件中设置如下
-
-`defaultConfig {`
-
 ```
+defaultConfig {
+
 javaCompileOptions {
     annotationProcessorOptions {
         includeCompileClasspath true
     }
+}
+
 }
 ```
 
