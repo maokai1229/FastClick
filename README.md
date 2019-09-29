@@ -44,7 +44,7 @@ dependencies {
 [详细介绍编译时注解的使用方法](https://juejin.im/entry/57ad3fa47db2a200540c925)
 
 ### APT 原理
-APT 全名 Annation Processor Tool,就是借助 Javax 的注解库,在编译阶段扫描代码,将自定义注解的元素传入到注解处理器的 process() 方法中,然后生成我们想要的代码.比如生成 Java 文件.
+APT 就是借助 Javax 的注解库,在编译阶段扫描代码,将自定义注解的元素传入到注解处理器的 process() 方法中,然后生成我们想要的代码.比如生成 Java 文件.
 
 生成代码原理很简单,就是用一个 StringBuilder 拼接字符串,然后通过工具类生成 Java 文件
 
